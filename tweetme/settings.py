@@ -126,6 +126,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),   
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static-root") 
 
 # import markdown
 # print('Markdown module path', markdown.__file__)
