@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { TweetsComponent } from './tweets';
+import { TweetsComponent, TweetDetailComponent } from './tweets';
 import reportWebVitals from './reportWebVitals';
 
 const appEl = document.getElementById('root')
@@ -17,6 +17,11 @@ if (tweetsEl){
   ReactDOM.render(myComponent, tweetsEl);
 }
 
+const tweetDetailElements = document.querySelectorAll(".tweetme-detail")
+tweetDetailElements.forEach(container=>{
+  ReactDOM.render( e(TweetDetailComponent, container.dataset), container);
+
+})
 // root.render(
 //   <React.StrictMode>
 //     <App />
