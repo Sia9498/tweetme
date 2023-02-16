@@ -30,6 +30,8 @@ def tweet_create_view(request, *args, **kwargs):
     '''
     REST API Create view using Django REST framework
     '''
+    print("I am here")
+    print(request)
     serializer = TweetCreateSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save(user=request.user)
@@ -106,6 +108,7 @@ def tweet_action_view(request, *args, **kwargs):
 
 
 def tweet_create_view_pure_django(request, *args, **kwargs):
+    print('asdasdasdasd')
     user = request.user
     if not request.user.is_authenticated:
         user = None
