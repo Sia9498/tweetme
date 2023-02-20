@@ -15,7 +15,7 @@ class Tweet(models.Model):
     # id = models.AutoField(primary_key=True)
 
     parent = models.ForeignKey("self", null=True, on_delete=models.SET_NULL)   # retweet logic
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # 1 user can have many tweets, 1 tweet is only by 1 user
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tweets') # 1 user can have many tweets, 1 tweet is only by 1 user
     likes = models.ManyToManyField(User, related_name='tweet_user', blank=True, through=TweetLike)
     content = models.TextField(blank=True, null=True)
     image = models.FileField(blank=True, null=True, upload_to='images/')
