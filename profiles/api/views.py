@@ -28,15 +28,29 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 #     to_follow_user = 
 #     return Response({}, status=200)
 
-@api_view(['GET']) 
+@api_view(['GET'])
 def profile_detail_api_view(request, username,  *args, **kwargs):
     qs = Profile.objects.filter(user__username = username)
     if not qs.exists():
         return Response({"detail" : "User not found"}, status=404)
 
     profile_obj = qs.first()
-    data = PublicProfileSerializer(instance=profile_obj, context={"request":request})
-    return Response(data.data, status=200)
+    
+    # data = request.data or {}
+    # action = data.get("action")
+
+    # if request.method == "POST":
+    #     me = request.user
+    #     if profile_obj.user != me:
+    #         if action == "follow":
+    #             profile_obj.followers.add(me)
+    #         elif action == "unfollow":
+    #             profile_obj.followers.remove(me)
+    #         else:
+    #             pass
+
+    serializer = PublicProfileSerializer(instance=profile_obj, context={"request":request})
+    return Response(serializer.data, status=200)
 
 
 @api_view(['GET', 'POST']) 
@@ -45,9 +59,9 @@ def user_follow_view(request, username, *args, **kwargs):
     me = request.user
     other_user_qs = User.objects.filter(username=username)
 
-    if me.username == username:
-        my_followers = me.profile.followers.all()
-        return Response({"count": my_followers.count()}, status=200)
+    # if me.username == username:
+    #     my_followers = me.profile.followers.all()
+    #     return Response({"count": my_followers.count()}, status=200)
 
     if not other_user_qs.exists():
         return Response({}, status=404)
@@ -64,6 +78,6 @@ def user_follow_view(request, username, *args, **kwargs):
     else:
         pass
     
-    current_followers_qs = profile.followers.all()
-    return Response({"count": current_followers_qs.count()}, status=200)
+    data = PublicProfileSerializer(instance=profile, context={"request":request})
+    return Response(data.data, status=200)
 
